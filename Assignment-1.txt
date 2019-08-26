@@ -1,0 +1,166 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.5.61 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| azam               |
+| demo_build         |
+| mysql              |
+| mytest             |
+| performance_schema |
+| rahul              |
+| rahul_user         |
+| student            |
+| test               |
+| user_rahul         |
+| vita_db            |
++--------------------+
+12 rows in set (0.01 sec)
+
+mysql> create database assignment
+    -> ;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use assignment
+Database changed
+mysql> create table student
+    -> (
+    -> name char(20),
+    -> roll_no int(4),
+    -> course varchar(4)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into student values
+    -> ('Seema',101,'dbda'),
+    -> ('Reema',102,'dac');
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> show tables
+    -> ;
++----------------------+
+| Tables_in_assignment |
++----------------------+
+| student              |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from student
+    -> ;
++-------+---------+--------+
+| name  | roll_no | course |
++-------+---------+--------+
+| Seema |     101 | dbda   |
+| Reema |     102 | dac    |
++-------+---------+--------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> insert into student values
+    -> ('Riya',103,'dac'),
+    -> ('Priya',104,'dbda'),
+    -> ('Heena',105,'dbda');
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from student
+    -> ;
++-------+---------+--------+
+| name  | roll_no | course |
++-------+---------+--------+
+| Seema |     101 | dbda   |
+| Reema |     102 | dac    |
+| Riya  |     103 | dac    |
+| Priya |     104 | dbda   |
+| Heena |     105 | dbda   |
++-------+---------+--------+
+5 rows in set (0.00 sec)
+
+
+mysql> insert into student values
+    -> ('Azam',101,'dbda');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from student;
++-------+---------+--------+
+| name  | roll_no | course |
++-------+---------+--------+
+| Seema |     101 | dbda   |
+| Reema |     102 | dac    |
+| Riya  |     103 | dac    |
+| Priya |     104 | dbda   |
+| Heena |     105 | dbda   |
+| Azam  |     101 | dbda   |
++-------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> delete from student where name="Seema";
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from student;
++-------+---------+--------+
+| name  | roll_no | course |
++-------+---------+--------+
+| Reema |     102 | dac    |
+| Riya  |     103 | dac    |
+| Priya |     104 | dbda   |
+| Heena |     105 | dbda   |
+| Azam  |     101 | dbda   |
++-------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update student
+    -> set roll_no=101 where name="Reema";
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student
+    -> set roll_no=102 where name="Riya";
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student
+    -> set roll_no=103 where name="Priya";
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student
+    -> set roll_no=104 where name="Heena";
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student
+    -> set roll_no=105 where name="Azam";
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student
+    -> ;
++-------+---------+--------+
+| name  | roll_no | course |
++-------+---------+--------+
+| Reema |     101 | dac    |
+| Riya  |     102 | dac    |
+| Priya |     103 | dbda   |
+| Heena |     104 | dbda   |
+| Azam  |     105 | dbda   |
++-------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql>
