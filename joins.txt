@@ -1,0 +1,196 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.5.61 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use dbda
+Database changed
+mysql> show tables
+    -> ;
++----------------+
+| Tables_in_dbda |
++----------------+
+| book           |
+| booktran       |
+| clause         |
+| customers      |
+| member         |
+| orders         |
+| salespeople    |
++----------------+
+7 rows in set (0.00 sec)
+
+mysql> alter table salespeople
+    -> ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> describe salespeople;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| SNUM  | int(11)      | YES  |     | NULL    |       |
+| SNAME | varchar(20)  | YES  |     | NULL    |       |
+| CITY  | varchar(20)  | YES  |     | NULL    |       |
+| COMM  | decimal(2,2) | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> alter table salespeople
+    -> add primary key(snum);
+Query OK, 6 rows affected (0.23 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> describe salespeople;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| SNUM  | int(11)      | NO   | PRI | 0       |       |
+| SNAME | varchar(20)  | YES  |     | NULL    |       |
+| CITY  | varchar(20)  | YES  |     | NULL    |       |
+| COMM  | decimal(2,2) | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> alter table customers
+    -> add constraint fk_snum
+    -> foreign key (snum) references salespeople(snum);
+Query OK, 7 rows affected (0.16 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> describe customers
+    -> ;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| cnum   | int(11)     | NO   | PRI | NULL    |       |
+| cname  | varchar(20) | YES  |     | NULL    |       |
+| city   | varchar(15) | YES  |     | NULL    |       |
+| rating | int(11)     | YES  |     | NULL    |       |
+| snum   | int(11)     | YES  | MUL | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> select * from orders;
++------+---------+------------+------+------+
+| onum | amt     | odate      | cnum | snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1996-03-10 | 2008 | 1007 |
+| 3002 | 1900.10 | 1996-03-10 | 2007 | 1004 |
+| 3003 |  768.19 | 1996-03-10 | 2001 | 1001 |
+| 3005 | 5160.45 | 1996-03-10 | 2003 | 1002 |
+| 3006 | 1098.16 | 1996-03-10 | 2008 | 1007 |
+| 3007 |   75.75 | 1996-04-10 | 2002 | 1003 |
+| 3008 | 4723.00 | 1996-05-10 | 2006 | 1001 |
+| 3009 | 1713.25 | 1996-04-10 | 2002 | 1003 |
+| 3010 | 1309.95 | 1996-06-10 | 2004 | 1002 |
+| 3011 | 9891.88 | 1996-06-10 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> describe orders;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| onum  | int(11)      | NO   | PRI | NULL    |       |
+| amt   | decimal(6,2) | YES  |     | NULL    |       |
+| odate | date         | YES  |     | NULL    |       |
+| cnum  | int(11)      | YES  |     | NULL    |       |
+| snum  | int(11)      | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> alter table orders
+    -> add constraint fk_cnum
+    -> foreign key (cnum) references customers(cnum);
+Query OK, 10 rows affected (0.12 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> describe orders;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| onum  | int(11)      | NO   | PRI | NULL    |       |
+| amt   | decimal(6,2) | YES  |     | NULL    |       |
+| odate | date         | YES  |     | NULL    |       |
+| cnum  | int(11)      | YES  | MUL | NULL    |       |
+| snum  | int(11)      | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+'
+mysql> select * from
+    -> salespeople inner join customers
+    -> on salespeople.snum=customers.snum;
++------+---------+-----------+------+------+----------+----------+--------+------+
+| SNUM | SNAME   | CITY      | COMM | cnum | cname    | city     | rating | snum |
++------+---------+-----------+------+------+----------+----------+--------+------+
+| 1001 | Peel    | London    | 0.12 | 2001 | hofman   | london   |    100 | 1001 |
+| 1001 | Peel    | London    | 0.12 | 2006 | clemens  | london   |    100 | 1001 |
+| 1002 | Serres  | San jose  | 0.13 | 2003 | liu      | san jose |    200 | 1002 |
+| 1002 | Serres  | San jose  | 0.13 | 2004 | grass    | berlin   |    300 | 1002 |
+| 1003 | Axelrod | Newyork   | 0.10 | 2002 | gioballi | rome     |    200 | 1003 |
+| 1004 | Motika  | London    | 0.11 | 2007 | pereira  | rome     |    100 | 1004 |
+| 1007 | Rifkin  | Barcelona | 0.15 | 2008 | cisneros | san jose |    300 | 1007 |
++------+---------+-----------+------+------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+
+mysql> select *
+    -> from salespeople left outer join customers
+    -> on salespeople.snum=customers.snum;
++------+---------+-----------+------+------+----------+----------+--------+------+
+| SNUM | SNAME   | CITY      | COMM | cnum | cname    | city     | rating | snum |
++------+---------+-----------+------+------+----------+----------+--------+------+
+| 1001 | Peel    | London    | 0.12 | 2001 | hofman   | london   |    100 | 1001 |
+| 1001 | Peel    | London    | 0.12 | 2006 | clemens  | london   |    100 | 1001 |
+| 1002 | Serres  | San jose  | 0.13 | 2003 | liu      | san jose |    200 | 1002 |
+| 1002 | Serres  | San jose  | 0.13 | 2004 | grass    | berlin   |    300 | 1002 |
+| 1003 | Axelrod | Newyork   | 0.10 | 2002 | gioballi | rome     |    200 | 1003 |
+| 1004 | Motika  | London    | 0.11 | 2007 | pereira  | rome     |    100 | 1004 |
+| 1005 | Fran    | London    | 0.26 | NULL | NULL     | NULL     |   NULL | NULL |
+| 1007 | Rifkin  | Barcelona | 0.15 | 2008 | cisneros | san jose |    300 | 1007 |
++------+---------+-----------+------+------+----------+----------+--------+------+
+8 rows in set (0.01 sec)
+
+mysql> select sname,rating
+    -> from salespeople left outer join customers
+    -> on salespeople.snum=customers.snum;
++---------+--------+
+| sname   | rating |
++---------+--------+
+| Peel    |    100 |
+| Peel    |    100 |
+| Serres  |    200 |
+| Serres  |    300 |
+| Axelrod |    200 |
+| Motika  |    100 |
+| Fran    |   NULL |
+| Rifkin  |    300 |
++---------+--------+
+8 rows in set (0.00 sec)
+
+mysql> select cname,amt,odate
+    -> from customers right outer join orders
+    -> on customers.cnum=orders.cnum;
++----------+---------+------------+
+| cname    | amt     | odate      |
++----------+---------+------------+
+| cisneros |   18.69 | 1996-03-10 |
+| pereira  | 1900.10 | 1996-03-10 |
+| hofman   |  768.19 | 1996-03-10 |
+| liu      | 5160.45 | 1996-03-10 |
+| cisneros | 1098.16 | 1996-03-10 |
+| gioballi |   75.75 | 1996-04-10 |
+| clemens  | 4723.00 | 1996-05-10 |
+| gioballi | 1713.25 | 1996-04-10 |
+| grass    | 1309.95 | 1996-06-10 |
+| clemens  | 9891.88 | 1996-06-10 |
++----------+---------+------------+
+10 rows in set (0.00 sec)
