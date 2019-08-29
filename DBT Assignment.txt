@@ -1,0 +1,229 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 5.5.61 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| adventureworks     |
+| cdac               |
+| day1               |
+| dbda               |
+| dummy              |
+| employee           |
+| mydb               |
+| mysql              |
+| performance_schema |
+| riders             |
+| tempo              |
+| test               |
+| vita               |
+| vita_db            |
+| works              |
++--------------------+
+16 rows in set (0.00 sec)
+
+mysql> use dbda;
+Database changed
+mysql> create table salespeople
+    -> (SNUM int,SNAME varchar(20),CITY varchar(20),COMM decimal(2,2));
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> insert into salespeople values
+    -> (1001,'Peel','London',.12),
+    -> (1002,'Serres','San jose',.13),
+    -> (1004,'Motika','London',.11),
+    -> (1007,'Rifkin','Barcelona',.15),
+    -> (1003,'Axelrod','Newyork',.10),
+    -> (1005,'Fran','London',.26);
+Query OK, 6 rows affected (0.15 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| SNUM | SNAME   | CITY      | COMM |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | Newyork   | 0.10 |
+| 1005 | Fran    | London    | 0.26 |
++------+---------+-----------+------+
+6 rows in set (0.00 sec)
+
+mysql> create table customers(cnum int primary key,cname varchar(20),city varchar(15),rating int,snum int);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into customers values
+    -> (
+    -> 2001,'hofman','london',100,1001),
+    -> (2002,'gioballi','rome',200,1003),
+    -> (2003,'liu','san jose',200,1002),
+    -> (2004,'grass','berlin',300,1002),
+    -> (2006,'clemens','london',100,1001),
+    -> (2008,'cisneros','san jose',300,1007),
+    -> (2007,'pereira','rome',100,1004);
+Query OK, 7 rows affected (0.07 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from customers;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2001 | hofman   | london   |    100 | 1001 |
+| 2002 | gioballi | rome     |    200 | 1003 |
+| 2003 | liu      | san jose |    200 | 1002 |
+| 2004 | grass    | berlin   |    300 | 1002 |
+| 2006 | clemens  | london   |    100 | 1001 |
+| 2007 | pereira  | rome     |    100 | 1004 |
+| 2008 | cisneros | san jose |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> create table orders
+    -> (onum int primary key,amt decimal(6,2),odate date,cnum int,snum int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into orders values
+    -> (3001,18.69,'1996-03-10',2008,1007),
+    -> (3003,768.19,'1996-03-10',2001,1001),
+    -> (3002,1900.10,'1996-03-10',2007,1004),
+    -> (3005,5160.45,'1996-03-10',2003,1002),
+    -> (3006,1098.16,'1996-03-10',2008,1007),
+    -> (3009,1713.25,'1996-04-10',2002,1003),
+    -> (3007,75.75,'1996-04-10',2002,1003),
+    -> (3008,4723.00,'1996-05-10',2006,1001),
+    -> (3010,1309.95,'1996-06-10',2004,1002),
+    -> (3011,9891.88,'1996-06-10',2006,1001);
+Query OK, 10 rows affected (0.02 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from orders;
++------+---------+------------+------+------+
+| onum | amt     | odate      | cnum | snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1996-03-10 | 2008 | 1007 |
+| 3002 | 1900.10 | 1996-03-10 | 2007 | 1004 |
+| 3003 |  768.19 | 1996-03-10 | 2001 | 1001 |
+| 3005 | 5160.45 | 1996-03-10 | 2003 | 1002 |
+| 3006 | 1098.16 | 1996-03-10 | 2008 | 1007 |
+| 3007 |   75.75 | 1996-04-10 | 2002 | 1003 |
+| 3008 | 4723.00 | 1996-05-10 | 2006 | 1001 |
+| 3009 | 1713.25 | 1996-04-10 | 2002 | 1003 |
+| 3010 | 1309.95 | 1996-06-10 | 2004 | 1002 |
+| 3011 | 9891.88 | 1996-06-10 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> show columns from salespeople;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| SNUM  | int(11)      | YES  |     | NULL    |       |
+| SNAME | varchar(20)  | YES  |     | NULL    |       |
+| CITY  | varchar(20)  | YES  |     | NULL    |       |
+| COMM  | decimal(2,2) | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> select * from customers
+    -> where rating=100;
++------+---------+--------+--------+------+
+| cnum | cname   | city   | rating | snum |
++------+---------+--------+--------+------+
+| 2001 | hofman  | london |    100 | 1001 |
+| 2006 | clemens | london |    100 | 1001 |
+| 2007 | pereira | rome   |    100 | 1004 |
++------+---------+--------+--------+------+
+3 rows in set (0.01 sec)
+
+mysql> select * from customers
+    -> where city is null;
+Empty set (0.00 sec)
+
+mysql> select * from orders
+    -> order by cnum desc;
++------+---------+------------+------+------+
+| onum | amt     | odate      | cnum | snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1996-03-10 | 2008 | 1007 |
+| 3006 | 1098.16 | 1996-03-10 | 2008 | 1007 |
+| 3002 | 1900.10 | 1996-03-10 | 2007 | 1004 |
+| 3008 | 4723.00 | 1996-05-10 | 2006 | 1001 |
+| 3011 | 9891.88 | 1996-06-10 | 2006 | 1001 |
+| 3010 | 1309.95 | 1996-06-10 | 2004 | 1002 |
+| 3005 | 5160.45 | 1996-03-10 | 2003 | 1002 |
+| 3009 | 1713.25 | 1996-04-10 | 2002 | 1003 |
+| 3007 |   75.75 | 1996-04-10 | 2002 | 1003 |
+| 3003 |  768.19 | 1996-03-10 | 2001 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.01 sec)
+
+mysql> select * from customers
+    -> where city="san jose" and rating>200;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2008 | cisneros | san jose |    300 | 1007 |
++------+----------+----------+--------+------+
+1 row in set (0.03 sec)
+
+mysql> select cname from customers
+    -> where city="san jose" and rating>200;
++----------+
+| cname    |
++----------+
+| cisneros |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select sname,comm
+    -> from salespeople
+    -> where city="london";
++--------+------+
+| sname  | comm |
++--------+------+
+| Peel   | 0.12 |
+| Motika | 0.11 |
+| Fran   | 0.26 |
++--------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from orders where not(odate='1996-03-10'or snum>1006)
+    -> and amt>=1500;
++------+---------+------------+------+------+
+| onum | amt     | odate      | cnum | snum |
++------+---------+------------+------+------+
+| 3008 | 4723.00 | 1996-05-10 | 2006 | 1001 |
+| 3009 | 1713.25 | 1996-04-10 | 2002 | 1003 |
+| 3011 | 9891.88 | 1996-06-10 | 2006 | 1001 |
++------+---------+------------+------+------+
+3 rows in set (0.03 sec)
+
+mysql> select * from salespeople
+    -> where (comm>+0.12 or comm<0.14);
++------+---------+-----------+------+
+| SNUM | SNAME   | CITY      | COMM |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | Newyork   | 0.10 |
+| 1005 | Fran    | London    | 0.26 |
++------+---------+-----------+------+
+6 rows in set (0.01 sec)
+
+mysql>
