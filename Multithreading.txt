@@ -1,0 +1,202 @@
+Q1 create a multi-threaded application by using  "extends Thread " method.create 2 threads. they should display characters from A to J.
+
+
+package Thread;
+
+public class Th1 extends Thread
+{
+	public void run()
+	{
+		for(char i=65;i<=74;i++)
+		{
+			System.out.println(i);
+		}
+	}
+
+	public static void main(String[] args) 
+	{
+		Th1 t1=new Th1();
+		Th1 t2=new Th1();
+		t1.start();
+		t2.start();
+	}
+
+}
+
+
+2) above program  using "implements Runnable" method.
+package Thread;
+
+public class Th2 implements Runnable
+{
+public void run()
+{
+	for(char i=65;i<=74;i++)
+	{
+		System.out.println(i);
+	}
+}
+	public static void main(String[] args) 
+	{
+		Th2 ob=new Th2();
+		Thread t1=new Thread(ob);
+		Thread t2=new Thread(ob);
+		t1.start();
+		t2.start();
+
+	}
+
+}
+
+
+3) create 3 threads in such a way that while one thread is executing, 2 threads cannot interfere. they should display output "Exec  0" to "Exec 5".
+package Thread;
+
+public class Th3 implements Runnable
+{
+	public void run()
+	{
+		synchronized(this)
+		{
+			for(int i=0;i<=5;i++)
+			{
+				System.out.println("Exec"+i);
+			}
+		}
+		
+			
+	}
+	public static void main(String[] args) 
+	{
+		Th3 s=new Th3();
+		//Th3 s1=new Th3();
+		Thread t1=new Thread(s);
+		Thread t2=new Thread(s);
+		Thread t3=new Thread(s);
+		t1.start();
+		t2.start();
+		t3.start();
+		
+	}
+
+}
+
+
+4)create 2 threads. Write a program which displays number 1 to 10 using class lock. 
+[hint:- use "implements Runnable" and synchronized block]
+package Thread;
+
+public class Th4 implements Runnable
+{
+	static Class cl;
+	static void disp()
+	{
+		synchronized(cl)
+		{
+			for(int i=1;i<=10;i++)
+			{
+				System.out.println(i);
+			}	
+		}
+		try
+		{
+			Thread.sleep(100);
+		}
+		catch(InterruptedException ie)
+		{
+			
+		}
+	}
+	public void run()
+	{
+		disp();
+	}
+	public static void main(String[] args)throws Exception
+	{
+		cl=Class.forName("Thread.Th4");
+		Th4 c=new Th4();
+		Th4 c1=new Th4();
+		Thread t1=new Thread(c);
+		Thread t2=new Thread(c1);
+		t1.start();
+		t2.start();
+	}
+
+}
+
+
+5) create 2 threads
+	one thread will display 1 to 50
+	second thread will display 50 to 1
+both the threads should start simultaneously.
+
+(use implements method)
+
+package Thread;
+
+import javax.swing.plaf.SliderUI;
+
+public class Th5 implements Runnable
+{
+	public void run()
+	{
+		System.out.println(Thread.currentThread());
+		disp();
+		//disp1();
+	}
+	public void disp()
+	{
+		System.out.println("display 1 to 50");
+		
+			try {
+				if(Thread.currentThread() != null)
+				{
+					for(int i=1,k=50;i<=50;i++,k--)
+					{
+					System.out.println("T1"+" "+i);
+					//Thread.sleep(100);
+					if(k>0){
+					System.out.println("T2"+" "+k);
+					
+					}
+					//Thread.sleep(100);
+					
+					}
+					/*for(int j=50;j>=1;j--)
+					{
+					System.out.println("T2"+" "+j);
+					Thread.sleep(100);
+					}*/
+					
+				}
+		
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		
+		}
+	
+
+	/*public void disp1()
+	{
+		System.out.println("display 50 to 1");
+		
+			System.out.println("T2"+" "+j);
+		}
+	}*/
+
+	public static void main(String[] args) 
+	{
+		System.out.println(Thread.currentThread());
+		Th5 t3=new Th5();
+		//Th5 t4=new Th5();
+	    Thread t1=new Thread(t3);
+	    Thread t2=new Thread(t3);
+	    t1.setName("First");
+	    t2.setName("Second");
+	    t1.start();
+	    t2.start();
+
+	}
+}
